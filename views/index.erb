@@ -1,8 +1,11 @@
 <html>
   <head></head>
   <body>
-    <p>
-		The SECRET NUMBER is <%= rand_num %>
-	</p>
+  	<form>
+  		<input type='text' name='guess' />
+  		<input type='submit' value='Guess!' />
+	</form>
+    	<p>Your guess is <%= message %></p>
+		<p>The SECRET NUMBER is <%= answer %></p>
   </body>
  </html>
