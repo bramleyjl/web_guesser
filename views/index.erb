@@ -1,11 +1,17 @@
 <html>
-  <head></head>
+  <head>
+  	<style>
+      body {
+        background: <%= background %>;
+      }
+    </style>
+  </head>
   <body>
   	<form>
   		<input type='text' name='guess' />
   		<input type='submit' value='Guess!' />
 	</form>
-    	<p>Your guess is <%= message %></p>
-		<p>The SECRET NUMBER is <%= answer %></p>
+    	<p><%= message %></p>
+		<p>The secret number is <%= answer %></p>
   </body>
  </html>
