@@ -7,10 +7,10 @@ require 'sinatra/reloader'
 def check_guess(guess)
 	guess = guess.to_i
 	if guess == @@secret_number
-		restart(true)
+		restart
 		return "Your guess is correct! You win! Guess again to start over with a new number."
 	elsif @@guesses_remain == 0
-		restart(false)
+		restart
 		return "You lose! Guess again to start over with a new number."
 	elsif guess > (@@secret_number + 5)
 		return "Your guess is way too high! You have #{@@guesses_remain} guesses left!"
@@ -23,10 +23,7 @@ def check_guess(guess)
 	end
 end
 
-def restart(correct)
-	if correct == true
-		set_color(9000)
-	end
+def restart
 	@@secret_number = rand(100)
 	@@guesses_remain = 5
 end
@@ -46,7 +43,7 @@ def set_color(guess)
 		return "red"
 	elsif guess > @@secret_number || guess < @@secret_number
 		return "pink"
-	elsif guess == @@secret_number || guess == 9000
+	elsif guess == @@secret_number
 		return "green"
 	end
 end
