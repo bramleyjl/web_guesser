@@ -1,57 +1,35 @@
 require 'sinatra'
 require 'sinatra/reloader'
 
-@@secret_number = rand(100)
-@@guesses_remain = 5
+SECRET_NUMBER = rand(100)
 
 def check_guess(guess)
-	guess = guess.to_i
-	if guess == @@secret_number
-		restart
-		return "Your guess is correct! You win! Guess again to start over with a new number."
-	elsif @@guesses_remain == 0
-		restart
-		return "You lose! Guess again to start over with a new number."
-	elsif guess > (@@secret_number + 5)
-		return "Your guess is way too high! You have #{@@guesses_remain} guesses left!"
-	elsif guess < (@@secret_number - 5)
-		return "Your guess is way too low! You have #{@@guesses_remain} guesses left!"
-	elsif guess > @@secret_number
-		return "Your guess is too high! You have #{@@guesses_remain} guesses left!"
-	elsif guess < @@secret_number
-		return "Your guess is too low! You have #{@@guesses_remain} guesses left!"
-	end
-end
-
-def restart
-	@@secret_number = rand(100)
-	@@guesses_remain = 5
+  guess = guess.to_i
+  if guess > SECRET_NUMBER
+    return "Way too high!" if guess > (SECRET_NUMBER + 5)
+    return "Too high!"
+  elsif guess < SECRET_NUMBER
+    return "Way too low!" if guess < (SECRET_NUMBER - 5)
+    return "Too low!"
+  else
+    return "Your guess is correct!"
+  end
 end
 
 def display_answer(guess)
-	if guess.to_i == @@secret_number
-		return guess
-	else
-		@@guesses_remain -= 1
-	 	return "???"
-	end
-end
-
-def set_color(guess)
-	guess = guess.to_i
-	if guess > (@@secret_number + 5) || guess < (@@secret_number - 5)
-		return "red"
-	elsif guess > @@secret_number || guess < @@secret_number
-		return "pink"
-	elsif guess == @@secret_number
-		return "green"
-	end
+  if guess.to_i == SECRET_NUMBER
+    return guess
+  else
+    return "???"
+  end
 end
 
 get '/' do
-	guess = params["guess"]
-	message = check_guess(guess)
-	answer = display_answer(guess)
-	background = set_color(guess)
-	erb :index, :locals => {:answer => answer, :message => message, :background => background}
+  guess = params["guess"]
+  message = check_guess(guess)
+  number = display_answer(guess)
+  erb :index, :locals => {
+    :number => number, 
+    :message => message
+  }
 end
